@@ -7,6 +7,7 @@ import com.example.Drive.api.java.model.Flower;
 import com.example.Drive.api.java.service.FlowerService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("api/v1")
 @RestController
@@ -21,4 +22,9 @@ public class FlowerController {
         return ResponseEntity.ok(flower);
     }
 
+    @GetMapping("/get/flower/{Id}")
+    public ResponseEntity<Optional<Flower>> getAllFlowerByID(@PathVariable("Id") String id){
+        Optional<Flower> timesheet = flowerService.getAllFlowerByID(id);
+        return ResponseEntity.ok(timesheet);
+    }
 }
