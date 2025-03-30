@@ -40,4 +40,17 @@ public class FlowerController {
         Optional<Flower> timesheet = flowerService.deleteFlowerById(id);
         return ResponseEntity.ok(timesheet);
     }
+
+    @PutMapping("/update/flower/{Id}")
+    public ResponseEntity<Flower> updateTimeSheet(@PathVariable("Id") String id, @RequestBody Flower TimeSheetToUpdate){
+        Optional<Flower> updatedFlowerOptional = flowerService.updateFlower(id, TimeSheetToUpdate);
+
+        if (updatedFlowerOptional.isPresent()) {
+            Flower updateFlower = updatedFlowerOptional.get();
+            return ResponseEntity.status(HttpStatus.CREATED).body(updateFlower);
+        } else {
+            // Handle the case where id is not found
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

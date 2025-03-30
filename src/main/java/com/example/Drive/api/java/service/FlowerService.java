@@ -59,11 +59,38 @@ public class FlowerService {
         flowerRepository.save(newFlower);
         return newFlower;
     }
-    
+
     public Optional<Flower> deleteFlowerById(String id){
         Optional<Flower> deleteflowerByid = null;
         deleteflowerByid = flowerRepository.findById(id);
         flowerRepository.delete(deleteflowerByid.get());
         return deleteflowerByid;
+    }
+
+    public Optional<Flower> updateFlower(String id, Flower flowerUpdBody){
+        Optional<Flower> optionalFlower = flowerRepository.findById(id);
+
+        Flower existingFlower = optionalFlower.get();
+
+        existingFlower.setName(flowerUpdBody.getName());
+        existingFlower.setDescription(flowerUpdBody.getDescription());
+        existingFlower.setPrice(flowerUpdBody.getPrice());
+        existingFlower.setImageUrl(flowerUpdBody.getImageUrl());
+        existingFlower.setType(flowerUpdBody.getType());
+        existingFlower.setScientificName(flowerUpdBody.getScientificName());
+        existingFlower.setColor(flowerUpdBody.getColor());
+        existingFlower.setBloomSeason(flowerUpdBody.getBloomSeason());
+        existingFlower.setNativeRegion(flowerUpdBody.getNativeRegion());
+        existingFlower.setSunlightRequirement(flowerUpdBody.getSunlightRequirement());
+        existingFlower.setWaterRequirement(flowerUpdBody.getWaterRequirement());
+        existingFlower.setStockQuantity(flowerUpdBody.getStockQuantity());
+        existingFlower.setAddedDate(flowerUpdBody.getAddedDate());
+        existingFlower.setUpdatedDate(flowerUpdBody.getUpdatedDate());
+
+        System.out.println("existingFlower :: " +existingFlower);
+        
+        flowerRepository.save(existingFlower);
+
+        return optionalFlower;
     }
 }
