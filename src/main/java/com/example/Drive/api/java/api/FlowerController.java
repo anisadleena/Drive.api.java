@@ -27,4 +27,10 @@ public class FlowerController {
         Optional<Flower> timesheet = flowerService.getAllFlowerByID(id);
         return ResponseEntity.ok(timesheet);
     }
+
+    @DeleteMapping("/delete/flower/{Id}")
+    public ResponseEntity<Optional<Flower>> deleteFlowerById(@PathVariable("Id") String id){
+        Optional<Flower> timesheet = flowerService.deleteFlowerById(id);
+        return ResponseEntity.ok(timesheet);
+    }
 }

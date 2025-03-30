@@ -28,4 +28,11 @@ public class FlowerService {
 
         return timesheetByID;
     }
+
+    public Optional<Flower> deleteFlowerById(String id){
+        Optional<Flower> deleteflowerByid = null;
+        deleteflowerByid = flowerRepository.findById(id);
+        flowerRepository.delete(deleteflowerByid.get());
+        return deleteflowerByid;
+    }
 }
