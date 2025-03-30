@@ -1,5 +1,6 @@
 package com.example.Drive.api.java.api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,12 @@ public class FlowerController {
     public ResponseEntity<Optional<Flower>> getAllFlowerByID(@PathVariable("Id") String id){
         Optional<Flower> timesheet = flowerService.getAllFlowerByID(id);
         return ResponseEntity.ok(timesheet);
+    }
+
+    @PostMapping("/create/flower")
+    public ResponseEntity<Flower> createTimeSheet(@RequestBody Flower flower){
+        Flower createdFlower = flowerService.createFlower(flower);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdFlower);
     }
 
     @DeleteMapping("/delete/flower/{Id}")

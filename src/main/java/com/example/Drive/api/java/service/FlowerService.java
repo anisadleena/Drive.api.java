@@ -29,6 +29,37 @@ public class FlowerService {
         return timesheetByID;
     }
 
+    public Flower createFlower(Flower flowerBody){
+        Flower newFlower = new Flower();
+        newFlower.setName(flowerBody.getName());
+        newFlower.setDescription(flowerBody.getDescription());
+        newFlower.setPrice(flowerBody.getPrice());
+        newFlower.setImageUrl(flowerBody.getImageUrl());
+        newFlower.setType(flowerBody.getType());
+        newFlower.setScientificName(flowerBody.getScientificName());
+        newFlower.setColor(flowerBody.getColor());
+        newFlower.setBloomSeason(flowerBody.getBloomSeason());
+        newFlower.setNativeRegion(flowerBody.getNativeRegion());
+        newFlower.setSunlightRequirement(flowerBody.getSunlightRequirement());
+        newFlower.setWaterRequirement(flowerBody.getWaterRequirement());
+        newFlower.setStockQuantity(flowerBody.getStockQuantity());
+        newFlower.setAddedDate(flowerBody.getAddedDate());
+        
+
+        try {
+            newFlower = flowerRepository.save(newFlower);
+            System.out.println("TimeSheet created successfully: " + newFlower);
+        } catch (Exception e) {
+            System.out.println("Failed to create TimeSheet");
+            e.printStackTrace();
+            throw e; 
+        }
+
+        System.out.println("newTimeSheet :: "+ newFlower);
+        flowerRepository.save(newFlower);
+        return newFlower;
+    }
+    
     public Optional<Flower> deleteFlowerById(String id){
         Optional<Flower> deleteflowerByid = null;
         deleteflowerByid = flowerRepository.findById(id);
