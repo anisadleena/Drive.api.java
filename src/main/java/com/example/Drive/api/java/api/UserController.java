@@ -7,14 +7,14 @@ import com.example.Drive.api.java.service.UserService;
 
 import java.util.List;
 
-@RequestMapping("api/v1/user")
+@RequestMapping("api/v1")
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/get/User")
+    @GetMapping("/get/user")
     public ResponseEntity<List<User>> getAllUser(){
         List<User> user = userService.getAllUser();
         return ResponseEntity.ok(user);
