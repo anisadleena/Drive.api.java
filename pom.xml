@@ -96,11 +96,6 @@
 			<version>42.5.4</version>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.6.11</version>
-		</dependency>
 		<!-- Swagger Dependencies -->
 		<dependency>
 			<groupId>io.springfox</groupId>
