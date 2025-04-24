@@ -9,14 +9,31 @@ import java.util.List;
 
 @Service
 public class UserService {
+
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public List<User> getAllUser(){
-        List<User> userList = null;
-        userList = userRepository.findAll();
-        System.out.println("userList : " + userList);
+        return userRepository.findAll();
+    }
 
-        return userList;
+    public String signup(User user) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            return "Email already in use";
+        }
+        userRepository.save(user); 
+        return "User registered successfully";
+    }
+
+    public String login(String email, String rawPassword) {
+        return userRepository.findByEmail(email)
+            .map(user -> {
+                if (rawPassword.equals(user.getPassword())) {
+                    return "Login successful";
+                } else {
+                    return "Invalid credentials";
+                }
+            })
+            .orElse("User not found");
     }
 }

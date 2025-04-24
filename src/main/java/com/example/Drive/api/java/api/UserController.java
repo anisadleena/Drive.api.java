@@ -20,4 +20,17 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @PostMapping("/signup")
+    public ResponseEntity<String> signup(@RequestBody User user) {
+        String result = userService.signup(user);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody User loginRequest) {
+        String result = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
+        return ResponseEntity.ok(result);
+    }
+
+
 }

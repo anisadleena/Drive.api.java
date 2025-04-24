@@ -26,3 +26,8 @@ stock_quantity (Integer) – Quantity available in stock (useful if it's for sal
 added_date (Timestamp) – When the flower record was added to the system.
 updated_date (Timestamp) – When the flower record was last updated.
 image_url - flower image
+
+
+=====================================================
+to run Java terminal: mvn spring-boot:run
+=====================================================
