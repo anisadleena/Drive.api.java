@@ -24,48 +24,52 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return path.equals("/api/v1/login") || path.equals("/api/v1/signup");
+    }
     
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
-            throws ServletException, IOException {
+                                HttpServletResponse response,
+                                FilterChain filterChain)
+        throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            final String jwt = authHeader.substring(7);
+        // If missing or does not start with Bearer, return custom 401
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"User is not authorized - token missing or invalid\"}");
+            return;
+        }
 
-            if (!jwtUtil.validateToken(jwt)) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("Invalid or expired token");
-                return;
-            }
-            
-            // Add this code to establish authentication
-            try {
-                // Extract claims from token
-                Claims claims = jwtUtil.extractAllClaims(jwt);
-                
-                // Create list of authorities (if you have roles in your token)
-                List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                
-                // Create authentication token
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                    claims.getSubject(), null, authorities
-                );
-                
-                // Set details (optional)
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                
-                // Set authentication in security context
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            } catch (Exception e) {
-                // Don't authenticate if there's an error
-                SecurityContextHolder.clearContext();
-            }
+        final String jwt = authHeader.substring(7);
+
+        if (!jwtUtil.validateToken(jwt)) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"Invalid or expired token\"}");
+            return;
+        }
+
+        try {
+            Claims claims = jwtUtil.extractAllClaims(jwt);
+            List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                claims.getSubject(), null, authorities
+            );
+            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+        } catch (Exception e) {
+            SecurityContextHolder.clearContext();
         }
 
         filterChain.doFilter(request, response);
     }
+
 }

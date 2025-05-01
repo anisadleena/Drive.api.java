@@ -31,11 +31,8 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody User loginRequest) {
         String jwt = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
         if (jwt.equals("Invalid credentials") || jwt.equals("User not found")) {
-            return ResponseEntity.status(401).body(jwt);
+            return ResponseEntity.status(401).body(Map.of("error", jwt));
         }
         return ResponseEntity.ok(Map.of("token", jwt));
     }
-
-
-
 }
