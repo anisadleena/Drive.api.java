@@ -6,6 +6,7 @@ import com.example.Drive.api.java.model.User;
 import com.example.Drive.api.java.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("api/v1")
 @RestController
@@ -27,10 +28,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User loginRequest) {
-        String result = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
-        return ResponseEntity.ok(result);
+    public ResponseEntity<?> login(@RequestBody User loginRequest) {
+        String jwt = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
+        if (jwt.equals("Invalid credentials") || jwt.equals("User not found")) {
+            return ResponseEntity.status(401).body(jwt);
+        }
+        return ResponseEntity.ok(Map.of("token", jwt));
     }
+
 
 
 }
