@@ -20,8 +20,16 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/signup", "/api/v1/login").permitAll()
-                .anyRequest().authenticated()
+            .requestMatchers(
+                "/api/v1/signup", 
+                "/api/v1/login",
+                "/swagger-ui/**",
+                "/swagger-ui.html",
+                "/v3/api-docs/**",
+                "/swagger-resources/**",
+                "/webjars/**",
+                "/favicon.ico"
+            ).permitAll().anyRequest().authenticated()
             )
             .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 

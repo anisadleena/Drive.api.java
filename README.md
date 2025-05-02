@@ -1,33 +1,44 @@
+=====================================================
 Spring initializr
 1. Project: Maven
 2. Language: Java
 3. Spring Boot Version: Latest stable
 4. Dependencies:
--> Spring Web (For REST API)
--> Spring Boot DevTools (For hot reload)
--> Spring Data JPA (For database)
--> MySQL Driver (For database connection)
--> Spring Security (For authentication)
--> JWT (For token-based authentication)
 
-Flower Columns:
-id (Integer, Primary Key) – Unique identifier for each flower. (Already included)
-name (String) – Common name of the flower. (Already included)
-type (String) – Category or classification of the flower (e.g., Rose, Tulip, Orchid). (Already included)
-description (String) – A brief description of the flower. (Already included)
-scientific_name (String) – Botanical or Latin name of the flower.
-color (String) – Primary color of the flower.
-bloom_season (String) – The season when the flower blooms (e.g., Spring, Summer).
-native_region (String) – Where the flower originates or is commonly found.
-sunlight_requirement (String) – Light conditions required (e.g., Full Sun, Partial Shade).
-water_requirement (String) – Frequency of watering (e.g., Low, Medium, High).
-price (Decimal/Double) – Cost of the flower (if applicable).
-stock_quantity (Integer) – Quantity available in stock (useful if it's for sales).
-added_date (Timestamp) – When the flower record was added to the system.
-updated_date (Timestamp) – When the flower record was last updated.
-image_url - flower image
+✅ Spring Boot Starters
+spring-boot-starter-data-jpa
+spring-boot-starter-web
+spring-boot-starter-security
+spring-boot-starter-test
+spring-boot-starter-validation
+spring-boot-devtools
 
+✅ Database Drivers
+mysql-connector-j
+postgresql
 
+✅ JWT (io.jsonwebtoken)
+jjwt-api (0.12.3)
+jjwt-impl (0.12.3)
+jjwt-jackson (0.12.3)
+jjwt-api (0.11.5)
+jjwt-impl (0.11.5)
+jjwt-jackson (0.11.5)
+
+✅ Lombok
+lombok (1.18.20) — listed twice
+
+✅ Swagger / OpenAPI
+springdoc-openapi-starter-webmvc-ui (2.1.0)
 =====================================================
 to run Java terminal: mvn spring-boot:run
+to build Java terminal: mvn clean package
+=====================================================
+Swagger RestApi:
+Local > http://localhost:70/swagger-ui/index.html
+
+To use Swagger:
+1. Go to link
+2. login 
+3. Add auth token w/out bearer at the front 
 =====================================================
