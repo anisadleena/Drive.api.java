@@ -1,8 +1,10 @@
 package com.example.Drive.api.java.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.Drive.api.java.model.Flower;
 import com.example.Drive.api.java.service.FlowerService;
@@ -51,6 +53,21 @@ public class FlowerController {
         } else {
             // Handle the case where id is not found
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping(value = "/upload/image/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> uploadImage(@PathVariable("id") String id,
+                                            @RequestParam("file") MultipartFile file) {
+        try {
+            boolean uploaded = flowerService.uploadImage(id, file);
+            if (uploaded) {
+                return ResponseEntity.ok("Image uploaded successfully.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Flower not found.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Image upload failed.");
         }
     }
 }
