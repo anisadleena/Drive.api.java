@@ -4,7 +4,9 @@ import com.example.Drive.api.java.repository.FlowerRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +36,7 @@ public class FlowerService {
         newFlower.setName(flowerBody.getName());
         newFlower.setDescription(flowerBody.getDescription());
         newFlower.setPrice(flowerBody.getPrice());
-        newFlower.setImageUrl(flowerBody.getImageUrl());
+        newFlower.setImageData(flowerBody.getImageData());
         newFlower.setType(flowerBody.getType());
         newFlower.setScientificName(flowerBody.getScientificName());
         newFlower.setColor(flowerBody.getColor());
@@ -75,7 +77,7 @@ public class FlowerService {
         existingFlower.setName(flowerUpdBody.getName());
         existingFlower.setDescription(flowerUpdBody.getDescription());
         existingFlower.setPrice(flowerUpdBody.getPrice());
-        existingFlower.setImageUrl(flowerUpdBody.getImageUrl());
+        existingFlower.setImageData(flowerUpdBody.getImageData());
         existingFlower.setType(flowerUpdBody.getType());
         existingFlower.setScientificName(flowerUpdBody.getScientificName());
         existingFlower.setColor(flowerUpdBody.getColor());
@@ -93,4 +95,22 @@ public class FlowerService {
 
         return optionalFlower;
     }
+
+    public boolean uploadImage(String id, MultipartFile file) {
+    Optional<Flower> optionalFlower = flowerRepository.findById(id);
+        if (optionalFlower.isPresent()) {
+            Flower flower = optionalFlower.get();
+            System.out.println("SERVICE: upload image = " +flower);
+            try {
+                flower.setImageData(file.getBytes());
+                flowerRepository.save(flower);
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Failed to read image file");
+            }
+        }
+        return false;
+    }
+
 }

@@ -20,8 +20,9 @@ public class Flower {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Lob
+    @Column(name = "image_data")
+    private byte[] imageData;
 
     @Column(name = "type")
     private String type;
