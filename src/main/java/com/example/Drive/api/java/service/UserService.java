@@ -21,6 +21,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private EmailService emailService;
 
     public List<User> getAllUser(){
         return userRepository.findAll();
@@ -34,6 +36,12 @@ public class UserService {
         // Encrypt the password before saving
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user); 
+         // Send welcome email
+        emailService.sendEmail(
+        user.getEmail(),
+        "Welcome to Drive!",
+        "Hi " + user.getUsername() + ",\n\nThank you for signing up!"
+    );
         return "User registered successfully";
     }
 
