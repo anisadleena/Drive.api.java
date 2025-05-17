@@ -38,10 +38,10 @@ public class UserService {
         userRepository.save(user); 
          // Send welcome email
         emailService.sendEmail(
-        user.getEmail(),
-        "Welcome to Drive!",
-        "Hi " + user.getUsername() + ",\n\nThank you for signing up!"
-    );
+            user.getEmail(),
+            "Welcome to Drive!",
+            "Hi " + user.getUsername() + ",\n\nThank you for signing up!"
+        );
         return "User registered successfully";
     }
 
