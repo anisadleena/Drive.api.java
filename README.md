@@ -31,7 +31,7 @@ lombok (1.18.20) — listed twice
 ✅ Swagger / OpenAPI
 springdoc-openapi-starter-webmvc-ui (2.1.0)
 =====================================================
-to run Java terminal: mvn spring-boot:run
+to run Java terminal: ./run.sh
 to build Java terminal: mvn clean package
 =====================================================
 Swagger RestApi:
